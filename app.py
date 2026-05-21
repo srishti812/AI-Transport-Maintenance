@@ -81,19 +81,47 @@ def predict():
 
     )
 
-    # Prediction
+    # Model Prediction
     result = model.predict(new_data)
 
-    probability = model.predict_proba(new_data)[0][1] * 100
+    # SMART RISK SCORE
+    temp_score = (temperature / 120) * 35
+
+    oil_score = ((100 - oil_level) / 100) * 30
+
+    vibration_score = (vibration / 10) * 25
+
+    distance_score = (distance / 30000) * 10
+
+    probability = (
+
+        temp_score +
+
+        oil_score +
+
+        vibration_score +
+
+        distance_score
+
+    )
+
+    # Limit Risk Score
+    if probability > 100:
+
+        probability = 100
+
+    if probability < 0:
+
+        probability = 0
 
     # Prediction Status
-    if result[0] == 1:
+    if probability >= 70:
 
         prediction = "Maintenance Required"
 
     else:
 
-        prediction = "No Maintenance Required"
+        prediction = "Bus Running Normally"
 
     # Emergency Alert
     if (
@@ -102,7 +130,7 @@ def predict():
 
         or temperature > 110
 
-        or vibration > 9
+        or vibration > 8
 
         or oil_level < 30
 
@@ -133,14 +161,24 @@ def predict():
     # Breakdown Chance
     breakdown = random.randint(
 
-        int(probability - 10),
+        max(1, int(probability - 10)),
 
         int(probability)
 
     )
 
     # Safe Distance
-    safe_distance = random.randint(50, 500)
+    if probability >= 70:
+
+        safe_distance = random.randint(50, 120)
+
+    elif probability >= 40:
+
+        safe_distance = random.randint(120, 300)
+
+    else:
+
+        safe_distance = random.randint(300, 700)
 
     # AI Suggestions
     suggestions = []
@@ -153,7 +191,7 @@ def predict():
 
         )
 
-    if vibration > 9:
+    if vibration > 8:
 
         suggestions.append(
 
@@ -173,7 +211,7 @@ def predict():
 
         suggestions.append(
 
-            "🚌 Schedule Full Service"
+            "🚌 Schedule Full Bus Service"
 
         )
 
@@ -189,11 +227,11 @@ def predict():
 
         suggestions.append(
 
-            "✅ Bus Running Normally"
+            "✅ Bus Running Smoothly"
 
         )
 
-    # Google Maps Service Center
+    # Google Maps Link
     service_center = "https://www.google.com/maps/search/bus+service+center+near+me"
 
     # Send Data To HTML
