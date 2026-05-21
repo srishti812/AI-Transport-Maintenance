@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>AI Transport Maintenance System</title>
+
+<style>
+
+body{
+
+    margin:0;
+    padding:0;
+
+    font-family:Arial;
+
+    background:url("https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=1974&auto=format&fit=crop")
+    no-repeat center center/cover;
+
+    height:100vh;
+}
+
+.overlay{
+
+    width:100%;
+    height:100vh;
+
+    background:rgba(0,0,0,0.6);
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.container{
+
+    width:550px;
+
+    background:rgba(255,255,255,0.15);
+
+    backdrop-filter:blur(10px);
+
+    padding:40px;
+
+    border-radius:20px;
+
+    text-align:center;
+
+    box-shadow:0px 0px 20px black;
+}
+
+h1{
+
+    color:white;
+
+    font-size:42px;
+
+    margin-bottom:25px;
+}
+
+input,select{
+
+    width:100%;
+
+    padding:16px;
+
+    margin-top:15px;
+
+    border:none;
+
+    border-radius:10px;
+
+    font-size:18px;
+
+    box-sizing:border-box;
+}
+
+button{
+
+    width:100%;
+
+    padding:16px;
+
+    margin-top:20px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:linear-gradient(to right,#00c6ff,#0072ff);
+
+    color:white;
+
+    font-size:22px;
+
+    cursor:pointer;
+
+    font-weight:bold;
+}
+
+button:hover{
+
+    transform:scale(1.03);
+
+    transition:0.3s;
+}
+
+.info-box{
+
+    margin-top:20px;
+
+    background:rgba(255,255,255,0.2);
+
+    padding:15px;
+
+    border-radius:15px;
+
+    color:white;
+
+    text-align:left;
+}
+
+.info-box h3{
+
+    margin:8px 0;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="overlay">
+
+<div class="container">
+
+<h1>🚌 AI Transport Maintenance System</h1>
+
+<form action="/predict" method="POST">
+
+<select name="bus_no"
+
+id="bus_no"
+
+onchange="updateBusDetails()"
+
+required>
+
+<option value="">Select Bus</option>
+
+{% for bus in buses %}
+
+<option
+
+value="{{ bus.bus_no }}"
+
+data-driver="{{ bus.driver_name }}"
+
+data-contact="{{ bus.contact }}"
+
+data-source="{{ bus.source }}"
+
+data-destination="{{ bus.destination }}">
+
+{{ bus.bus_no }}
+
+</option>
+
+{% endfor %}
+
+</select>
+
+<input type="text"
+
+name="driver_name"
+
+id="driver_name"
+
+placeholder="Driver Name"
+
+required>
+
+<input type="text"
+
+name="contact"
+
+id="contact"
+
+placeholder="Contact Number"
+
+required>
+
+<input type="text"
+
+name="source"
+
+id="source"
+
+placeholder="Source"
+
+required>
+
+<input type="text"
+
+name="destination"
+
+id="destination"
+
+placeholder="Destination"
+
+required>
+
+<input type="number"
+
+name="distance"
+
+placeholder="Distance"
+
+required>
+
+<input type="number"
+
+name="temperature"
+
+placeholder="Temperature"
+
+required>
+
+<input type="number"
+
+name="oil_level"
+
+placeholder="Oil Level"
+
+required>
+
+<input type="number"
+
+name="vibration"
+
+placeholder="Vibration"
+
+required>
+
+<button type="submit">
+
+Predict Maintenance
+
+</button>
+
+</form>
+
+<div class="info-box">
+
+<h3>✅ AI Predictive Maintenance</h3>
+
+<h3>✅ LightGBM Algorithm</h3>
+
+<h3>✅ Emergency Alert System</h3>
+
+<h3>✅ Google Maps Integration</h3>
+
+<h3>✅ 1000+ India Wide Buses</h3>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+function updateBusDetails(){
+
+    let bus =
+    document.getElementById("bus_no");
+
+    let selected =
+    bus.options[bus.selectedIndex];
+
+    document.getElementById("driver_name").value =
+    selected.getAttribute("data-driver");
+
+    document.getElementById("contact").value =
+    selected.getAttribute("data-contact");
+
+    document.getElementById("source").value =
+    selected.getAttribute("data-source");
+
+    document.getElementById("destination").value =
+    selected.getAttribute("data-destination");
+
+}
+
+</script>
+
+</body>
+
+</html>
